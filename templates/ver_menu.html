@@ -5,14 +5,19 @@
 <!-- inicio del cuerpo del body -->
 {% block body %}
 
+
+
+
 {% for opcion in opciones %}
     <!-- imprimimos el mensaje -->
-<p>{{opcion.0}}</p>
+<p>{{opcion.0}} {{opcion.1}}</p>
     {% for plato in platos %}
+        {%if opcion[0] == plato[3]%}
+        <p>{{plato.1}}  precio {{plato.2}}</p>
+
+        {%endif%}
     
-    <p>{{plato.1}}</p>
-      
-    {% endfor %}
+    {%endfor%}
 {% endfor %}
 
 <!-- final del body -->

@@ -179,23 +179,11 @@ def ver_menu():
     conexion = sqlite3.connect('database/chiringuito.db')
     cursor = conexion.cursor()
     platos = cursor.execute("SELECT * FROM platos").fetchall()
-    menu=[]
-    for opcion in opciones:
-        print(opcion[1])
-        lista_platos=[]
-        menu.append(opcion)
-        
-        platos = cursor.execute("SELECT * FROM platos WHERE categoria_id={}".format(opcion[0])).fetchall()
-        for plato in platos:
-            lista_platos.append(plato)
-            
-        print(lista_platos)       
-         
 
-    return render_template('ver_menu.html', opciones = opciones, platos=lista_platos)
+    return render_template('ver_menu.html', opciones = opciones, platos=platos)
 
 
-# crear base de datos
+# # crear base de datos
 
 
 
