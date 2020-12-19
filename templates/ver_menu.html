@@ -1,0 +1,19 @@
+<!-- indicamos donde esta la plantilla -->
+{% extends 'plantilla.html' %}
+
+
+<!-- inicio del cuerpo del body -->
+{% block body %}
+
+{% for opcion in opciones %}
+    <!-- imprimimos el mensaje -->
+<p>{{opcion.0}}</p>
+    {% for plato in platos %}
+    
+    <p>{{plato.1}}</p>
+      
+    {% endfor %}
+{% endfor %}
+
+<!-- final del body -->
+{% endblock %}

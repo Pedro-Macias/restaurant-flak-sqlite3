@@ -1,0 +1,90 @@
+<!-- indicamos donde esta la plantilla -->
+{% extends 'plantilla.html' %}
+
+
+<!-- inicio del cuerpo del body -->
+{% block body %}
+
+<main>
+    <div class='container'>
+        <h1 class='display-4 text-center mt-4 fuente'>EL Chiringuito</h1>
+        <div class='row'>
+
+            <div class="col-md-5 mt-5">
+                <div class='card card-body'>
+                    <!-- recibir el mesaje dentro de una variable-->
+                    {% with mensajes = get_flashed_messages() %}
+                    <!-- si existe el mensaje lo recorremos -->
+                        {% if mensajes %}
+                            {% for mensaje in mensajes %}
+                            <!-- imprimimos el mensaje -->
+                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                    {{ mensaje }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <p></p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+
+                    <h4 class='fuente text-center mb-5'style='font-size: 25px;'>Ingresar categorias</h4>
+                        <form action="/add_opcion" method="POST">
+                            <div class="form-group"> 
+                                <input type="text" name='opcion' placeholder='Categoria' class='form-control'>
+                            </div>
+                            <div class="form-group"> 
+                                <button type='submit'class='btn btn-primary btn-block'>Guardar</button>
+                            </div>    
+                        </form>
+                </div>
+
+            </div>
+            <div class='col-md-7 mt-5'>
+                
+                    <!-- tabla de Categorias -->
+                <h4 class='text-center text-primary pb-2 fuente'style='font-size: 25px;'>Ver Categoria</h4>
+
+                <table class='table  table-sm'>
+                    <thead>
+                        <tr class ='bg-primary text-secondary fuente' style='font-size: 20px;'>
+                            <td >Nombre</td>
+                            <td>Operaciones</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for opcion in opciones %}
+                        <tr>
+                            <td class='fuente'> {{opcion.1}} </td>
+                            <!-- creamos enlaces de editar y eliminar -->
+                            <td>
+                                <a href="/get_platos/{{ opcion.0 }}" class="btn btn-info">añadir</a>
+                                <a href="/borrar_opcion/{{ opcion.0 }}" class="btn btn-warning boton_borrar" >Borrar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        
+                            
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>    
+</main>
+
+
+
+
+
+
+
+
+
+
+
+<!-- final del body -->
+{% endblock %}
