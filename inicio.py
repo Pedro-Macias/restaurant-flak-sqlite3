@@ -154,11 +154,7 @@ def borrar_plato(id):
     id_platos = cursor.fetchall()
     id_p = id_platos[0]
     platos = id_p[0]
-    print(id_p)
-
     conexion.close()
-    
-    # return redirect(url_for('index'))
     
     conexion = sqlite3.connect('database/chiringuito.db')
     cursor = conexion.cursor()
@@ -172,18 +168,15 @@ def borrar_plato(id):
 def ver_menu():
     conexion = sqlite3.connect('database/chiringuito.db')
     cursor = conexion.cursor()
-    # consultar categorias
     opciones = cursor.execute("SELECT * FROM opciones").fetchall()
-
     conexion.close()
     conexion = sqlite3.connect('database/chiringuito.db')
     cursor = conexion.cursor()
     platos = cursor.execute("SELECT * FROM platos").fetchall()
-
+    conexion.close()
     return render_template('ver_menu.html', opciones = opciones, platos=platos)
 
 
-# # crear base de datos
 
 
 

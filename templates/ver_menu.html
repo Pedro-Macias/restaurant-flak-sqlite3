@@ -6,19 +6,32 @@
 {% block body %}
 
 
+<main>
+    <div class='container'>
+        <h1 class='display-4 text-center mt-4 fuente'>Carta del chiringuito</h1>
+        <div class="center-block fuente mt-5">
+               
 
-
-{% for opcion in opciones %}
-    <!-- imprimimos el mensaje -->
-<p>{{opcion.0}} {{opcion.1}}</p>
-    {% for plato in platos %}
-        {%if opcion[0] == plato[3]%}
-        <p>{{plato.1}}  precio {{plato.2}}</p>
-
-        {%endif%}
+        {% for opcion in opciones %}
     
-    {%endfor%}
-{% endfor %}
-
+        <h2 class='fuente text-center mb-5'>{{opcion.1}}</h2>
+        {% for plato in platos %}
+        {%if opcion[0] == plato[3]%}
+        <div class='row'>
+            <div class='col-md-6 mt-2'>   
+                <h3 class='fuente text-center mb-5'>  {{plato.1}} </h3>
+            </div>
+            <div class='col-md-6 mt-2'>  
+                <h4 class='fuente text-center mb-5'>Precio {{plato.2}} Euros</h4>
+            </div>
+        </div>    
+                {%endif%}
+    
+            {%endfor%}
+        {% endfor %}
+                
+        </div>
+    </div>
+</main>
 <!-- final del body -->
 {% endblock %}
