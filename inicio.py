@@ -102,13 +102,14 @@ class Platos(db.Model, UserMixin):
 db.create_all()
 
 
-carta = []
+
 platos = []
 
 @app.route('/')
 def index():
     ''' funcion pagina principal'''
-    return render_template ('index.html',carta=carta, platos=platos)
+    categorias = Categoria.get_all()
+    return render_template ('index.html',categorias=categorias, platos=platos)
     
 
 @app.route('/p/<string:slug>/')
@@ -117,7 +118,8 @@ def ver_menu(slug):
 
 @app.route('/add_carta')
 def ver_carta():
-    return render_template ('add_carta.html',carta=carta, platos=platos)
+    categorias = Categoria.get_all()
+    return render_template ('add_carta.html',categorias=categorias, platos=platos)
 
 
 @app.route("/admin/categoria/", methods=['GET','POST'],defaults={'categoria_id' : None})
@@ -127,13 +129,15 @@ def form_cat(categoria_id):
     form = Form_Categoria()
     if form.validate_on_submit():
         opcion = form.opcion.data
-        categoria ={'opcion': opcion}
-        carta.append(categoria)
+
+        categoria = Categoria(user_id=current_user.id, opcion=opcion)
+        categoria.save()
         return redirect(url_for('index'))
     if form.validate_on_submit():
         opcion = form.opcion.data
-        categoria ={'opcion': opcion}
-        carta.append(categoria)
+
+        categoria = Categoria(user_id=current_user.id, opcion=opcion)
+        categoria.save()
         return redirect(url_for('ver_carta'))
     return render_template('admin/form_cat.html', form=form)
 
