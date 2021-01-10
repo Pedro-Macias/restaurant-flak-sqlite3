@@ -1,0 +1,21 @@
+{% extends "plantilla.html" %}
+
+    {% block title %} Mi Bar {% endblock %}
+
+{% block contenido %}
+    <ul>
+        {% for categoria in carta %}
+        <li> {{ categoria.opcion }}</li>
+        
+        {% endfor %}
+
+    </ul>
+    <ul>
+        {% for plato in platos %}
+        <li> {{ plato.nombre }}</li>
+        {% endfor %}
+
+    </ul>
+    
+
+{% endblock %}

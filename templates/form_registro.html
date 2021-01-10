@@ -1,0 +1,41 @@
+{% extends "plantilla.html" %}
+
+    {% block title %} Registro Usuarios {% endblock %}
+
+{% block contenido %}
+    {% if error %}
+    <p clase="text-danger"><strong>Error:</strong> {{ error }}
+    {% endif %}
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.nombre.label}}
+            {{ form.nombre }} <br>
+            {% for error in form.nombre.errors %}
+                <span class="text-danger"> {{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.email.label}}
+            {{ form.email }} <br>
+            {% for error in form.email.errors %}
+                <span class="text-danger"> {{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.password.label}}
+            {{ form.password }} <br>
+            {% for error in form.password.errors %}
+                <span class="text-danger"> {{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+
+
+{% endblock %}

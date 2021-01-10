@@ -1,0 +1,41 @@
+{% extends "plantilla.html" %}
+
+    {% block title %} Login {% endblock %}
+
+{% block contenido %}
+
+    <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        
+        <div>
+            {{ form.email.label}}
+            {{ form.email }} <br>
+            {% for error in form.email.errors %}
+                <span class="text-danger"> {{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.password.label}}
+            {{ form.password }} <br>
+            {% for error in form.password.errors %}
+                <span class="text-danger"> {{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.remember_me() }}
+            {{ form.remember_me.label}}
+        </div>
+
+        <div>
+            {{ form.submit() }}
+        </div>
+
+        <div>
+            <h4>¿No tienes cuenta? <a href="{{ url_for('show_form_registro')}}"> Registrate</a></h4>
+        </div>
+    </form>
+
+
+{% endblock %}

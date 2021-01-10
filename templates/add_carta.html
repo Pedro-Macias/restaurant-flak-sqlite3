@@ -1,0 +1,37 @@
+
+{% extends "plantilla.html" %}
+
+{% block title %} carta {% endblock %}
+
+{% block contenido %}
+<div>
+    <h4 class='text-center text-primary pb-2 fuente'style='font-size: 25px;'>Añadir a la Carta</h4>
+    <table class='table  table-sm'>
+        <thead>
+            <tr class ='bg-primary text-secondary fuente' style='font-size: 20px;'>
+                <td >Nombre</td>
+                <td>Operaciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in carta %}
+            <tr>
+                <td class='fuente'>  {{ categoria.opcion }} </td>
+                <!-- creamos enlaces de editar y eliminar -->
+                <td>
+                    <a href="{{ url_for('form_platos')}}" class="btn btn-info">añadir</a>
+                    <a href="" class="btn btn-warning boton_borrar" >Borrar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+                
+            
+        </tbody>
+    </table>
+</div> 
+
+
+
+
+{% endblock %}

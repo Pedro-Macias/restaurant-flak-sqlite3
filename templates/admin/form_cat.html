@@ -1,0 +1,27 @@
+{% extends "plantilla.html" %}
+
+{% block title %}
+    {% if categoria_id %}
+        Modificando la categoria{{ categoria_id }}
+    {% else %}
+        Nuevo post
+    {% endif %} 
+{% endblock %}
+
+{% block contenido %}
+
+    <form action="", method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.opcion.label}}
+            {{ form.opcion }} <br>
+            {% for error in form.opcion.errors %}
+                <span class="text-danger"> {{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.submit() }}
+        </div>
+    </form>
+
+{% endblock %}

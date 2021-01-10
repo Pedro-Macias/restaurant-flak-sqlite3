@@ -1,0 +1,36 @@
+{% extends "plantilla.html" %}
+
+{% block title %}
+    {% if categoria_id %}
+        añadir plato {{ categoria_id }}
+    {% else %}
+        Nuevo plato
+    {% endif %} 
+{% endblock %}
+
+{% block contenido %}
+
+    <form action="", method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.nombre.label}}
+            {{ form.nombre }} <br>
+            {% for error in form.nombre.errors %}
+                <span class="text-danger"> {{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.precio.label}}
+            {{ form.precio }} <br>
+            {% for error in form.precio.errors %}
+                <span class="text-danger"> {{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{form.submit() }}
+        </div>
+    </form>
+
+{% endblock %}
