@@ -11,6 +11,7 @@ from werkzeug.urls import url_parse
 import sqlite3
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import exc
 
 
 app = Flask(__name__)
@@ -128,17 +129,18 @@ def ver_carta():
 def form_cat(categoria_id):
     form = Form_Categoria()
     if form.validate_on_submit():
-        opcion = form.opcion.data
+        
+        try:
+            opcion = form.opcion.data
+            categoria = Categoria(user_id=current_user.id, opcion=opcion)          
+            categoria.save()
+            
+        except exc.SQLAlchemyError:
+            return redirect(url_for('form_cat'))
+        else:
+            return redirect(url_for('ver_carta'))
 
-        categoria = Categoria(user_id=current_user.id, opcion=opcion)
-        categoria.save()
-        return redirect(url_for('index'))
-    if form.validate_on_submit():
-        opcion = form.opcion.data
 
-        categoria = Categoria(user_id=current_user.id, opcion=opcion)
-        categoria.save()
-        return redirect(url_for('ver_carta'))
     return render_template('admin/form_cat.html', form=form)
 
 
