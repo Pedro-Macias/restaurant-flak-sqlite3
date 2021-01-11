@@ -5,6 +5,23 @@
 
 {% block contenido %}
 <div>
+    <!-- recibir el mesaje dentro de una variable-->
+    {% with mensajes = get_flashed_messages() %}
+    <!-- si existe el mensaje lo recorremos -->
+        {% if mensajes %}
+            {% for mensaje in mensajes %}
+            <!-- imprimimos el mensaje -->
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ mensaje }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <p></p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <h4 class='text-center text-primary pb-2 fuente'style='font-size: 25px;'>Añadir a la Carta</h4>
     <table class='table  table-sm'>
         <thead>

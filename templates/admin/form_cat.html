@@ -9,7 +9,24 @@
 {% endblock %}
 
 {% block contenido %}
-
+<div>
+    <!-- recibir el mesaje dentro de una variable-->
+    {% with mensajes = get_flashed_messages() %}
+    <!-- si existe el mensaje lo recorremos -->
+        {% if mensajes %}
+            {% for mensaje in mensajes %}
+            <!-- imprimimos el mensaje -->
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ mensaje }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <p></p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <form action="", method="POST" novalidate>
         {{ form.hidden_tag() }}
         <div>
@@ -23,5 +40,5 @@
             {{form.submit() }}
         </div>
     </form>
-
+</div>
 {% endblock %}

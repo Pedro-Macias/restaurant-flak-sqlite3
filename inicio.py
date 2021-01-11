@@ -4,6 +4,7 @@
 
 from flask import Flask
 from flask import render_template, request, redirect, url_for
+from flask import flash
 from formularios import Form_Registro, Form_login, Form_Categoria, Form_Platos
 from flask_login import LoginManager
 from flask_login import current_user, login_user, logout_user, login_required
@@ -136,8 +137,10 @@ def form_cat(categoria_id):
             categoria.save()
             
         except exc.SQLAlchemyError:
+            flash('esa Opcion ya existe')
             return redirect(url_for('form_cat'))
         else:
+            flash('Categoria creada correctamente')
             return redirect(url_for('ver_carta'))
 
 
@@ -160,7 +163,7 @@ def show_form_registro():
 
         user = User.get_by_email(email)
         if user is not None:
-            error = f'El email {email} ya esta siendo utilizado'
+            flash('esa email {email} ya esta siendo utilizado')
         else:
             user = User(nombre = nombre, email=email)
             user.set_password(password)
@@ -190,6 +193,7 @@ def login():
             if not next_page or url_parse(next_page).netloc != '':
                 next_page = url_for('index')
             return redirect(next_page)
+    flash('usuario incorrecto')        
     return render_template('form_login.html', form=form)
 
 @app.route('/logout')
@@ -216,6 +220,24 @@ def form_platos(plato_id):
         platos.append(plato)
         return redirect(url_for('ver_carta'))
     return render_template('admin/get_platos.html', form=form)
+
+# borrar categoria
+@app.route('/borrar_opcion/<id>')
+def borrar_opcion(id):
+    # nos conectamos a MYSQL
+    conexion = sqlite3.connect('database/chiringuito.db')
+    cursor = conexion.cursor()
+    # ejecutamos la orden , que borre de la tabla la linea con el id que indicamos
+    cursor.execute('DELETE FROM opciones WHERE id = {0}'.format(id))
+    # enviamos a la base de datos para ejecutar
+    conexion.commit()
+    # enviamos un mensaje
+    flash('Contacto Eliminado Correctamente ')
+    #redireccionamos a la pagina
+    conexion.close()
+    return redirect(url_for('index'))
+    
+
 
 @login_manager.user_loader
 def load_user(user_id):
