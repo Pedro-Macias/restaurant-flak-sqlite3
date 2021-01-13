@@ -37,7 +37,7 @@
                 <!-- creamos enlaces de editar y eliminar -->
                 <td>
                     <a href="{{ url_for('form_platos')}}" class="btn btn-info">añadir</a>
-                    <a href="" class="btn btn-warning boton_borrar" >Borrar</a>
+                    <a href="/borrar_opcion/{{ categoria.id }}" class="btn btn-warning boton_borrar" >Borrar</a>
                 </td>
             </tr>
             {% endfor %}

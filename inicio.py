@@ -82,6 +82,7 @@ class Categoria(db.Model, UserMixin):
     def get_all():
         return Categoria.query.all()
 
+
 class Platos(db.Model, UserMixin):
     __tablename__= "platos"
     id = db.Column(db.Integer, primary_key= True)
@@ -203,6 +204,7 @@ def logout():
 
 
 
+
 @app.route("/admin/plato/", methods=['GET','POST'],defaults={'plato_id' : None})
 @app.route("/admin/plato/<int:plato_id>/", methods= ['GET','POST'])
 def form_platos(plato_id):
@@ -224,18 +226,11 @@ def form_platos(plato_id):
 # borrar categoria
 @app.route('/borrar_opcion/<id>')
 def borrar_opcion(id):
-    # nos conectamos a MYSQL
-    conexion = sqlite3.connect('database/chiringuito.db')
-    cursor = conexion.cursor()
-    # ejecutamos la orden , que borre de la tabla la linea con el id que indicamos
-    cursor.execute('DELETE FROM opciones WHERE id = {0}'.format(id))
-    # enviamos a la base de datos para ejecutar
-    conexion.commit()
-    # enviamos un mensaje
-    flash('Contacto Eliminado Correctamente ')
-    #redireccionamos a la pagina
-    conexion.close()
-    return redirect(url_for('index'))
+    borrar = Categoria.query.get(id)
+    db.session.delete(borrar)
+    db.session.commit()
+    flash('Opcion Borrada correctamente')
+    return redirect(url_for('ver_carta'))
     
 
 
