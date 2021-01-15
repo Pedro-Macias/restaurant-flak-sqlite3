@@ -106,13 +106,13 @@ db.create_all()
 
 
 
-platos = []
 
 @app.route('/')
 def index():
     ''' funcion pagina principal'''
     categorias = Categoria.get_all()
-    return render_template ('index.html',categorias=categorias, platos=platos)
+    platos = Platos.get_all()
+    return render_template ('index.html', categorias=categorias, platos=platos)
     
 
 @app.route('/p/<string:slug>/')
@@ -122,6 +122,7 @@ def ver_menu(slug):
 @app.route('/add_carta')
 def ver_carta():
     categorias = Categoria.get_all()
+    platos = Platos.get_all()
     return render_template ('add_carta.html',categorias=categorias, platos=platos)
 
 
@@ -204,25 +205,6 @@ def logout():
 
 
 
-
-@app.route("/admin/plato/", methods=['GET','POST'],defaults={'plato_id' : None})
-@app.route("/admin/plato/<int:plato_id>/", methods= ['GET','POST'])
-def form_platos(plato_id):
-    form = Form_Platos()
-    if form.validate_on_submit():
-        nombre = form.nombre.data
-        precio = form.precio.data 
-        plato ={'nombre': nombre , 'precio': precio}
-        platos.append(plato)
-        return redirect(url_for('index'))
-    if form.validate_on_submit():
-        nombre = form.nombre.data
-        precio = form.precio.data 
-        plato ={'nombre': nombre , 'precio':precio}
-        platos.append(plato)
-        return redirect(url_for('ver_carta'))
-    return render_template('admin/get_platos.html', form=form)
-
 # borrar categoria
 @app.route('/borrar_opcion/<id>')
 def borrar_opcion(id):
@@ -231,7 +213,42 @@ def borrar_opcion(id):
     db.session.commit()
     flash('Opcion Borrada correctamente')
     return redirect(url_for('ver_carta'))
-    
+
+@app.route('/get_platos/<id>')
+@login_required
+def get_platos(id):
+    form = Form_Platos()
+    opciones = db.session.query(Categoria).filter( Categoria.id == id)
+    platos = db.session.query(Platos).filter(Platos.categoria_id== '{}'.format(id))
+    return render_template('/admin/get_platos.html', form= form , opciones = opciones[0],platos=platos)
+
+@app.route('/add_platos/<id>',methods=['POST'])
+def add_platos(id):
+    form = Form_Platos()
+    if form.validate_on_submit():
+        try:
+            
+            plato = form.plato.data
+            precio = form.precio.data
+            platos = Platos( plato= plato , precio= precio, categoria_id=id)          
+            platos.save()
+            return redirect(url_for('ver_carta'))
+        except exc.SQLAlchemyError:
+            flash('ese plato ya existe')
+            return redirect(url_for('ver_carta'))
+        else:
+            flash('Categoria creada correctamente')
+            return get_platos(id)
+
+# borrar platos
+@app.route('/borrar_plato/<id>')
+def borrar_plato(id):
+    borrar = Platos.query.get(id)
+    db.session.delete(borrar)
+    db.session.commit()
+    flash('Plato Borrado correctamente')
+    return redirect(url_for('ver_carta'))
+
 
 
 @login_manager.user_loader

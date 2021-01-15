@@ -4,10 +4,14 @@
 {% block title %} carta {% endblock %}
 
 {% block contenido %}
-<div>
-    <!-- recibir el mesaje dentro de una variable-->
-    {% with mensajes = get_flashed_messages() %}
-    <!-- si existe el mensaje lo recorremos -->
+
+
+
+<main>
+    <div class='container'>
+        <!-- recibir el mesaje dentro de una variable-->
+        {% with mensajes = get_flashed_messages() %}
+        <!-- si existe el mensaje lo recorremos -->
         {% if mensajes %}
             {% for mensaje in mensajes %}
             <!-- imprimimos el mensaje -->
@@ -21,34 +25,43 @@
             <p></p>
             {% endfor %}
         {% endif %}
-    {% endwith %}
-    <h4 class='text-center text-primary pb-2 fuente'style='font-size: 25px;'>Añadir a la Carta</h4>
-    <table class='table  table-sm'>
-        <thead>
-            <tr class ='bg-primary text-secondary fuente' style='font-size: 20px;'>
-                <td >Nombre</td>
-                <td>Operaciones</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for categoria in categorias %}
-            <tr>
-                <td class='fuente'>  {{ categoria.opcion }} </td>
-                <!-- creamos enlaces de editar y eliminar -->
-                <td>
-                    <a href="{{ url_for('form_platos')}}" class="btn btn-info">añadir</a>
-                    <a href="/borrar_opcion/{{ categoria.id }}" class="btn btn-warning boton_borrar" >Borrar</a>
-                </td>
-            </tr>
-            {% endfor %}
+        {% endwith %}   
+        <h1 class='display-4 text-center mt-4 fuente'>Gestionar la Carta</h1>
+        <div class="center-block fuente mt-5">
             
+
+        {% for categoria in categorias %}
+        <div class='row'>
+            <div class = 'col-md-9 mt-2'>
+        <h2 class='fuente text-center mb-5'>{{categoria.opcion}}</h2>
+            </div>
+            <div class = 'col-md-3 mt-2'>
+        <h3 class='fuente text-center mb-5'><a href="/get_platos/{{categoria.id}}" class="btn btn-info">añadir</a>
+            <a href="/borrar_opcion/{{ categoria.id }}" class="btn btn-warning boton_borrar" >Borrar</a>
+        </h3>
+            </div>
+        </div>    
+        {% for plato in platos %}
+        {%if categoria.id == plato.categoria_id%}
+        <div class='row'>
+            <div class='col-md-4 mb-2'>   
+                <h5 class='fuente  mb-2'>  {{plato.plato}} </h5>
+            </div>
+            <div class='col-md-4 mb-2'>  
+                <h5 class='fuente  mb-2'>Precio {{plato.precio}} Euros</h5>
+            </div>
+            <div class='col-md-4 mb-2'>  
+                <a href="/borrar_plato/{{ plato.id }}" class="btn btn-warning boton_borrar" >Borrar</a>
+            </div>
+        </div>    
+                {%endif%}
+    
+            {%endfor%}
+        {% endfor %}
                 
-            
-        </tbody>
-    </table>
-</div> 
-
-
+        </div>
+    </div>
+</main>
 
 
 {% endblock %}

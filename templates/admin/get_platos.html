@@ -28,12 +28,12 @@
         {% endif %}
     {% endwith %}
     
-    <form action="", method="POST" novalidate>
+    <form action="/add_platos/{{opciones.id}}", method="POST" novalidate>
         {{ form.hidden_tag() }}
         <div>
-            {{ form.nombre.label}}
-            {{ form.nombre }} <br>
-            {% for error in form.nombre.errors %}
+            {{ form.plato.label}}
+            {{ form.plato }} <br>
+            {% for error in form.plato.errors %}
                 <span class="text-danger"> {{ error }}</span>
             {% endfor %}
         </div>

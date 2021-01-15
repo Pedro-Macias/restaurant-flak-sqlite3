@@ -13,7 +13,7 @@ class Form_Categoria(FlaskForm):
     submit = SubmitField('Enviar')
 
 class Form_Platos(FlaskForm):
-    nombre =StringField('Nombre', validators=[DataRequired(), Length(max=50)])
+    plato =StringField('Plato', validators=[DataRequired(), Length(max=50)])
     precio =FloatField('Precio', validators=[DataRequired()])
     submit = SubmitField('Enviar') 
 

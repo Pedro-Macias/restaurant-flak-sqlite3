@@ -3,7 +3,7 @@
     {% block title %} Mi Bar {% endblock %}
 
 {% block contenido %}
-    <ul>
+    <!-- <ul>
         {% for categoria in categorias %}
         <li> {{ categoria.opcion }}</li>
         
@@ -15,7 +15,35 @@
         <li> {{ plato.nombre }}</li>
         {% endfor %}
 
-    </ul>
+    </ul> -->
     
+
+    <main>
+        <div class='container'>
+            <h1 class='display-4 text-center mt-4 fuente'>Carta del Bar</h1>
+            <div class="center-block fuente mt-5">
+                
+    
+            {% for categoria in categorias %}
+        
+            <h2 class='fuente text-center mb-5'>{{categoria.opcion}}</h2>
+            {% for plato in platos %}
+            {%if categoria.id == plato.categoria_id%}
+            <div class='row'>
+                <div class='col-md-6 mt-2'>   
+                    <h3 class='fuente text-center mb-5'>  {{plato.plato}} </h3>
+                </div>
+                <div class='col-md-6 mt-2'>  
+                    <h4 class='fuente text-center mb-5'>Precio {{plato.precio}} Euros</h4>
+                </div>
+            </div>    
+                    {%endif%}
+        
+                {%endfor%}
+            {% endfor %}
+                    
+            </div>
+        </div>
+    </main>
 
 {% endblock %}
