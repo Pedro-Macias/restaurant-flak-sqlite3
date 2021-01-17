@@ -131,6 +131,7 @@ def ver_carta():
 @login_required
 def form_cat(categoria_id):
     form = Form_Categoria()
+    categorias = Categoria.get_all()
     if form.validate_on_submit():
         
         try:
@@ -143,10 +144,10 @@ def form_cat(categoria_id):
             return redirect(url_for('form_cat'))
         else:
             flash('Categoria creada correctamente')
-            return redirect(url_for('ver_carta'))
+            return redirect(url_for('form_cat'))
 
 
-    return render_template('admin/form_cat.html', form=form)
+    return render_template('admin/form_cat.html', form=form, categorias=categorias)
 
 
 @app.route("/registro/", methods=['GET','POST'])
@@ -218,9 +219,9 @@ def borrar_opcion(id):
 @login_required
 def get_platos(id):
     form = Form_Platos()
-    opciones = db.session.query(Categoria).filter( Categoria.id == id)
+    categorias = db.session.query(Categoria).filter( Categoria.id == id)
     platos = db.session.query(Platos).filter(Platos.categoria_id== '{}'.format(id))
-    return render_template('/admin/get_platos.html', form= form , opciones = opciones[0],platos=platos)
+    return render_template('/admin/get_platos.html', form= form , categorias = categorias[0],platos=platos)
 
 @app.route('/add_platos/<id>',methods=['POST'])
 def add_platos(id):
@@ -232,12 +233,12 @@ def add_platos(id):
             precio = form.precio.data
             platos = Platos( plato= plato , precio= precio, categoria_id=id)          
             platos.save()
-            return redirect(url_for('ver_carta'))
+            
         except exc.SQLAlchemyError:
             flash('ese plato ya existe')
-            return redirect(url_for('ver_carta'))
+            return get_platos(id)
         else:
-            flash('Categoria creada correctamente')
+            flash('plato creado correctamente')
             return get_platos(id)
 
 # borrar platos

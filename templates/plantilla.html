@@ -12,29 +12,35 @@
         <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
     </head>
         <body>
-
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="{{ url_for('index') }}">home</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        {% if current_user.is_anonymous %}
-                    <a class="nav-item nav-link active" href="{{ url_for('login') }}">Login <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="{{ url_for('show_form_registro') }}">Registrar</a>
-                        {% else %}
-                    <a class="nav-item nav-link disabled" href="{{ current_user.nombre }}">{{current_user.nombre}}</a>
-                    <a class="nav-item nav-link" href="{{ url_for('form_cat')}}">categorias</a>
-                    <a class="nav-item nav-link" href="{{ url_for('logout') }}">Salir</a>
-                    <a class="nav-item nav-link" href="/add_carta" >carta</a>
-    
-                    {% endif %}
+            <header id="main-header">
+                <div class="container">
+                    <div>
+                    <img src = "{{ url_for ('static', filename = 'img/text.jpg') }}" class="img-fluid" alt="Responsive image"  width= 100%>
                     </div>
-                </div>
-            </nav>
+                <div>    
 
-
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <a class="navbar-brand" href="{{ url_for('index') }}">home</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                            <div class="navbar-nav">
+                                {% if current_user.is_anonymous %}
+                            <a class="nav-item nav-link active" href="{{ url_for('login') }}">Login <span class="sr-only">(current)</span></a>
+                            <a class="nav-item nav-link" href="{{ url_for('show_form_registro') }}">Registrar</a>
+                                {% else %}
+                            <a class="nav-item nav-link disabled" href="{{ current_user.nombre }}">{{current_user.nombre}}</a>
+                            <a class="nav-item nav-link" href="{{ url_for('form_cat')}}">categorias</a>
+                            <a class="nav-item nav-link" href="{{ url_for('logout') }}">Salir</a>
+                            <a class="nav-item nav-link" href="/add_carta" >carta</a>
+            
+                            {% endif %}
+                            </div>
+                        </div>
+                    </nav>
+                </div>    
+            </header>
     
         <div class= 'container pt-3'>
             {% block contenido %}
@@ -49,4 +55,11 @@
         <!-- propio js -->
         <script src ="{{ url_for('static',filename='js/info.js') }}"></script>
     </body>
+    <footer>
+        <div class="container mt-5">
+            <div class="row">
+                <p class="copyright text-muted">&copy; Pedro Macias - Flask 2021</p>
+            </div>
+        </div>
+    </footer>
 </html>

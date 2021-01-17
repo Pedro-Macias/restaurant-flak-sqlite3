@@ -9,46 +9,85 @@
 {% endblock %}
 
 {% block contenido %}
-<div>
-    <!-- recibir el mesaje dentro de una variable-->
-    {% with mensajes = get_flashed_messages() %}
-    <!-- si existe el mensaje lo recorremos -->
-        {% if mensajes %}
-            {% for mensaje in mensajes %}
-            <!-- imprimimos el mensaje -->
-            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    {{ mensaje }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
+<main>
+    <div class='container'>
+        <h1 class='display-4 text-center mt-4 fuente'>Mi Bar - Categorias</h1>
+        <div class='row'>
+        <!--BLOQUE IZQUIERDA  -->
+            <div class="col-md-5 mt-5">
+                <div class='card card-body'>
+                    <!-- MENSAJES -->
+                    {% with mensajes = get_flashed_messages() %}
+                        {% if mensajes %}
+                            {% for mensaje in mensajes %}
+                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                    {{ mensaje }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <p></p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <h4 class='fuente text-center mb-5'style='font-size: 25px;'>Ingresar Platos</h4>
+                    <!-- FORMULARIO INGRESAR PLATOS -->
+                    
+                    <form action="/add_platos/{{categorias.id}}", method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.plato (class="form-control", placeholder="Nombre del Plato")}} <br>
+                            {% for error in form.plato.errors %}
+                                <span class="text-danger"> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.precio (class="form-control", placeholder="Precio") }} <br>
+                            {% for error in form.precio.errors %}
+                                <span class="text-danger"> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-group">
+                            {{form.submit(class='form-control btn btn-primary') }}
+                        </div>
+                    </form>
+                </div>
             </div>
-            
-            <p></p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
     
-    <form action="/add_platos/{{opciones.id}}", method="POST" novalidate>
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.plato.label}}
-            {{ form.plato }} <br>
-            {% for error in form.plato.errors %}
-                <span class="text-danger"> {{ error }}</span>
-            {% endfor %}
+            <div class='col-md-7 mt-5'>
+                
+                <!-- BLOQUE DERECHA -->
+            <h4 class='text-center text-primary pb-2 fuente'style='font-size: 25px;'>Ver {{categorias.opcion}}</h4>
+
+            <table class='table  table-sm'>
+                <thead>
+                    <tr class ='bg-primary text-secondary fuente' style='font-size: 20px;'>
+                        <td>Plato</td>
+                        <td>Precio</td>
+                        <td>Operaciones</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for plato in platos %}
+                    <tr>
+                        <td class='fuente'> {{plato.plato }} </td>
+                        <td> {{plato.precio}}</td>
+                        <!-- creamos enlaces de editar y eliminar -->
+                        <td>
+                            <a href="/borrar_plato/{{ plato.id }}" class="btn btn-warning boton_borrar" >Borrar</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
-        <div>
-            {{ form.precio.label}}
-            {{ form.precio }} <br>
-            {% for error in form.precio.errors %}
-                <span class="text-danger"> {{ error }}</span>
-            {% endfor %}
         </div>
-
-        <div>
-            {{form.submit() }}
-        </div>
-    </form>
-</div>
+    </div>    
+</main>
 {% endblock %}
